@@ -4,19 +4,11 @@ import java.time.LocalDate;
 
 public class Tour {
 
-    private Long id;
-    private enum tourType{Historical, Extreme};
+    private enum tourType{Historical, Extreme}
     private LocalDate date;
     private String employee;
     private int maxPlaces;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public LocalDate getDate() {
         return date;
@@ -42,8 +34,7 @@ public class Tour {
         this.maxPlaces = maxPlaces;
     }
 
-    public Tour(Long id, LocalDate date, String employee, int maxPlaces) {
-        this.id = id;
+    public Tour(LocalDate date, String employee, int maxPlaces) {
         this.date = date;
         this.employee = employee;
         this.maxPlaces = maxPlaces;

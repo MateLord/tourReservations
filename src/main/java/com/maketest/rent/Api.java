@@ -2,6 +2,8 @@ package com.maketest.rent;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -13,27 +15,25 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/tours/")
 public class Api {
-
-    private List<Tour> tours;
+    private InMemoryDatabase database;
 
     public Api(){
-        tours = new ArrayList<>();
-        tours.add(new Tour( 1L, LocalDate.ofYearDay(2020,300), "Zenon", 30));
+        this.database = new InMemoryDatabase();
     }
 
     @GetMapping("/all")
-    public List<Tour> getAll(){
-        return tours;
+    public Page<Tour> getAll(){
+        return this.database.findAll(PageRequest.of(0, 5));
     }
 
     @GetMapping("/id")
-    public Optional<Tour> getById(@RequestParam int id){
-        return tours.stream().filter(element -> element.getId() == id).findFirst();
+    public Tour getById(@RequestParam int id){
+        return this.database.findById(id);
     }
 
     @PostMapping("/add")
-    public void addTour(@RequestParam int id, String employee, int maxPlaces){
-        this.tours.add(new Tour((long) id, LocalDate.now(), employee, maxPlaces));
+    public void addTour(@RequestParam String employee, int maxPlaces){
+       this.database.save(new Tour(LocalDate.now(), employee, maxPlaces));
     }
 
 }
