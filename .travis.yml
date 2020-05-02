@@ -8,7 +8,7 @@ env:
   global:
     - COMMIT=${TRAVIS_COMMIT::7}
 after_success:
-  - docker login -u "$dockerLogin" -p "$dockerPassword"
+  - echo "$dockerPassword" | docker login -u "$dockerLogin" --password-stdin
   - export IMAGE_NAME=matelord/tourreservations
   - docker build -t $IMAGE_NAME:$COMMIT .
   - docker tag $IMAGE_NAME:$COMMIT $IMAGE_NAME:latest
